@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
+
 class FbBot
 {
  private $hubVerifyToken = null;
@@ -74,7 +75,7 @@ class FbBot
  public function sendMessage($input)
  {
   try {
-   $client = new GuzzleHttpClient();
+   $client = new GuzzleHttp\Client();
    $url = "https://graph.facebook.com/v2.6/me/messages";
    $messageText = strtolower($input['message']);
    $senderId = $input['senderid'];
