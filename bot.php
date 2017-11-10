@@ -1,10 +1,10 @@
 <?php
 include 'FbBot.php';
-$tokken = $_REQUEST['hub.verify_token'];
+// var_dump($_REQUEST);die;
+$tokken = $_REQUEST['hub_verify_token'];
+$challange = $_REQUEST['hub_challenge'];
 
 $hubVerifyToken = 'nguyenkhoikhanh';
-
-$challange = $_REQUEST['hub.challenge'];
 
 $accessToken = 'EAACSABWtkLwBADpg1X9bzxbr3w2m8XmwFD97f6hIQeaZAZA6KKbNTwcW2mHW6BdZAEsorScK23E5MZAEU9CiJG8LVznKtjpEZAGjqP5JSkq8FrYkUY1dpSInbj3sOEZAEOvyfRvDa7atsM6WPeT4aAUAUGrusLbqqLy3YXTrWx2AZDZD';
 
