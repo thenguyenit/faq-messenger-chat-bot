@@ -33,6 +33,8 @@ class FbBot
     return $challange;
    }
    else {
+    echo "hub_verify_token:" . $hub_verify_token . "<br>";
+    echo "hubVerifyToken:" . $this->hubVerifyToken;
     throw new Exception("Tokken not verified");
    }
   }
