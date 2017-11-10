@@ -1,12 +1,12 @@
 <?php
 include 'FbBot.php';
-$tokken = $_REQUEST['hub_verify_token'];
+$tokken = $_REQUEST['hub.verify_token'];
 
-$hubVerifyToken = 'EAACSABWtkLwBADpg1X9bzxbr3w2m8XmwFD97f6hIQeaZAZA6KKbNTwcW2mHW6BdZAEsorScK23E5MZAEU9CiJG8LVznKtjpEZAGjqP5JSkq8FrYkUY1dpSInbj3sOEZAEOvyfRvDa7atsM6WPeT4aAUAUGrusLbqqLy3YXTrWx2AZDZD';
+$hubVerifyToken = 'nguyenkhoikhanh';
 
-$challange = $_REQUEST['hub_challenge'];
+$challange = $_REQUEST['hub.challenge'];
 
-$accessToken = 'nguyenkhoikhanh';
+$accessToken = 'EAACSABWtkLwBADpg1X9bzxbr3w2m8XmwFD97f6hIQeaZAZA6KKbNTwcW2mHW6BdZAEsorScK23E5MZAEU9CiJG8LVznKtjpEZAGjqP5JSkq8FrYkUY1dpSInbj3sOEZAEOvyfRvDa7atsM6WPeT4aAUAUGrusLbqqLy3YXTrWx2AZDZD';
 
 $bot = new FbBot();
 
