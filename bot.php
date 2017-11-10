@@ -16,13 +16,4 @@ $bot->setaccessToken($accessToken);
 echo $bot->verifyTokken($tokken, $challange);
 $input = json_decode(file_get_contents('php://input'), true);
 $message = $bot->readMessage($input);
-if($message == 'hi') {                     
-	$answer = "Hello! How may I help you today ";                      
-	$response = [
-		'recipient' => [ 'id' => $senderId ],                         
-		'message' => [ 'text' => $answer ],                         
-		'access_token' => $this->accessToken                      
-	];
-}
-$textmessage = $bot->sendMessage($response);
-
+$textmessage = $bot->sendMessage($message);
