@@ -6,7 +6,7 @@ $challange = $_REQUEST['hub_challenge'];
 
 $hubVerifyToken = 'nguyenkhoikhanh';
 
-$accessToken = 'EAACSABWtkLwBAIBNWicbZBx8UtCUXmB7U64BjXxhUwrxmfXI3u0PWIMS6Xd74dAZCkCh5GelJZATrLQ938DyOF9aZCJgbQZBHRn1tmRtaFcNfTDmpZCRBNEgyvpfBtQ9oZB6HXL8CKDFrVQcv3soXBqjkYjbQPXEEXXRYB1HtZCmVwZDZD';
+$accessToken = 'EAACSABWtkLwBAICYYRajq22UnZAKCjDku3ZC3DDZCnZBJZBx014riSTtgQv6CMGfluniTpgAgruCpaClP7OEmCoZA4vYT9o5n3fHd8JfKbPqaC2lihUsSgdBl3roICf3muYNp1WVZCo6sTl9ktlTIlfRFaS8FGlPV5SjsGduE1aXAZDZD';
 
 $bot = new FbBot();
 

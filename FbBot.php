@@ -98,13 +98,18 @@ class FbBot
                                 "item_url" => "https://www.cloudways.com/blog/migrate-symfony-from-cpanel-to-cloud-hosting/",
                                 "image_url" => "https://www.cloudways.com/blog/wp-content/uploads/Migrating-Your-Symfony-Website-To-Cloudways-Banner.jpg",
                                 "subtitle" => "Migrate your symfony application from Cpanel to Cloud.",
-                                "buttons" => [[
-                                    "type" => "web_url",
-                                    "url" => "www.cloudways.com",
-                                    "title" => "View Website"],
-                                    ["type" => "postback",
+                                "buttons" => [
+                                    [
+                                        "type" => "web_url",
+                                        "url" => "www.cloudways.com",
+                                        "title" => "View Website"
+                                    ],
+                                    [
+                                        "type" => "postback",
                                         "title" => "Start Chatting",
-                                        "payload" => "get started"]]
+                                        "payload" => "get started"
+                                    ]
+                                ]
                             ]]
                         ]]];
                 $response = [
@@ -117,15 +122,19 @@ class FbBot
                     "type" => "template",
                     "payload" => [
                         "template_type" => "list",
-                        "elements" => [[
-                            "title" => "Welcome to Peter\'s Hats", "item_url" => "https://www.cloudways.com/blog/migrate-symfony-from-cpanel-to-cloud-hosting/",
-                            "image_url" => "https://www.cloudways.com/blog/wp-content/uploads/Migrating-Your-Symfony-Website-To-Cloudways-Banner.jpg",
-                            "subtitle" => "We\'ve got the right hat for everyone.",
-                            "buttons" => [
-                                [
-                                    "type" => "web_url", "url" => "https://cloudways.com",
-                                    "title" => "View Website"],
-                            ]],
+                        "elements" => [
+                            [
+                                "title" => "Welcome to Peter\'s Hats",
+                                "item_url" => "https://www.cloudways.com/blog/migrate-symfony-from-cpanel-to-cloud-hosting/",
+                                "image_url" => "https://www.cloudways.com/blog/wp-content/uploads/Migrating-Your-Symfony-Website-To-Cloudways-Banner.jpg",
+                                "subtitle" => "We\'ve got the right hat for everyone.",
+                                "buttons" => [
+                                    [
+                                        "type" => "web_url", "url" => "https://cloudways.com",
+                                        "title" => "View Website"
+                                    ],
+                                ]
+                            ],
                             [
                                 "title" => "Multipurpose Theme Design and Versatility",
                                 "item_url" => "https://www.cloudways.com/blog/multipurpose-wordpress-theme-for-agency/",
@@ -136,7 +145,9 @@ class FbBot
                                         "type" => "web_url",
                                         "url" => "https://cloudways.com",
                                         "title" => "View Website"
-                                    ],]],
+                                    ],
+                                ]
+                            ],
                             [
                                 "title" => "Add Custom Discount in Magento 2",
                                 "item_url" => "https://www.cloudways.com/blog/add-custom-discount-magento-2/",
@@ -146,9 +157,12 @@ class FbBot
                                     [
                                         "type" => "web_url",
                                         "url" => "https://cloudways.com",
-                                        "title" => "View Website"],
-                                ]]
-                        ]]
+                                        "title" => "View Website"
+                                    ],
+                                ]
+                            ]
+                        ]
+                    ]
                 ]];
 
                 $response = [
@@ -156,6 +170,7 @@ class FbBot
                     'message' => $answer,
                     'access_token' => $this->accessToken
                 ];
+
             } elseif ($messageText == 'get started') {
                 $answer = [
                     "text" => "Please share your location:",
