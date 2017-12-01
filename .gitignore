@@ -1,7 +1,5 @@
 /vendor/
 .idea/
-test.json
-
 
 # exclude everything
 /var/log/*
@@ -10,4 +8,5 @@ test.json
 !/var/log/.gitkeep
 
 
-composer.lock
+/composer.lock
+.env

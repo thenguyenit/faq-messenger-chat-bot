@@ -12,9 +12,11 @@ class FbBot
     private $accessToken = null;
     private $tokken = false;
     protected $client = null;
+    protected $logger;
 
     function __construct()
     {
+        $this->logger = new Logger();
     }
 
     public function setHubVerifyToken($value)
@@ -69,9 +71,6 @@ class FbBot
                 ];
             }
 
-            // var_dump($senderId,$messageText,$payload);
-            //   $payload_txt = $input['entry'][0]['messaging'][0]['message']['quick_reply']‌​['payload'];
-
             return [
                 'senderid' => $senderId,
                 'message' => $messageText
@@ -85,7 +84,7 @@ class FbBot
     {
         try {
             $client = new Client();
-            $url = "https://graph.facebook.com/v2.6/me/messages";
+            $url = getenv('FB_GRAPH_URL');
             $messageText = strtolower($input['message']);
             $senderId = $input['senderid'];
             $msgarray = explode(' ', $messageText);
@@ -200,17 +199,23 @@ class FbBot
             } elseif (!empty($input['location'])) {
                 $answer = ["text" => 'great you are at' . $input['location'],];
                 $response = ['recipient' => ['id' => $senderId], 'message' => $answer, 'access_token' => $this->accessToken];
+
             } elseif (!empty($messageText)) {
                 $answer = 'I can not Understand you ask me about blogs';
                 $response = ['recipient' => ['id' => $senderId], 'message' => ['text' => $answer], 'access_token' => $this->accessToken];
             }
 
+            $this->logger->debug('Response', $response);
+
             $response = $client->post($url, ['query' => $response, 'headers' => $header]);
 
             return true;
+
         } catch (RequestException $e) {
             $response = json_decode($e->getResponse()->getBody(true)->getContents());
-            file_put_contents("test.json", json_encode($response));
+
+            $this->logger->debug('Exception', $response);
+
             return $response;
         }
     }
