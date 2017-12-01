@@ -1,5 +1,10 @@
-
 {
+	"name": "Misfit messenger chat bot",
+	"license": "MIT",
+	"type": "project",
+	"require": {
+		"php": ">=7.0"
+	},
     "require": {
         "guzzlehttp/guzzle": "^6.3"
     },

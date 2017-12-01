@@ -1,7 +1,8 @@
 <?php
-require 'vendor/autoload.php';
 
-use GuzzleHttp\Client;
+namespace App\Helper;
+
+use GuzzleHttp\Client as Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 
@@ -26,17 +27,22 @@ class FbBot
         $this->accessToken = $value;
     }
 
-    public
-
-    function verifyTokken($hub_verify_token, $challange)
+    /**
+     * Verify token
+     *
+     * @param $hubVerifyToken
+     * @param $challenge
+     * @return bool|string
+     */
+    function verifyToken($hubVerifyToken, $challenge)
     {
         try {
-            if ($hub_verify_token === $this->hubVerifyToken) {
-                return $challange;
+            if ($hubVerifyToken === $this->hubVerifyToken) {
+                return $challenge;
             } else {
-                throw new Exception("Tokken not verified");
+                return false;
             }
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }
@@ -63,7 +69,7 @@ class FbBot
             //   $payload_txt = $input['entry'][0]['messaging'][0]['message']['quick_reply']‌​['payload'];
 
             return ['senderid' => $senderId, 'message' => $messageText];
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             return $ex->getMessage();
         }
     }
@@ -71,7 +77,7 @@ class FbBot
     public function sendMessage($input)
     {
         try {
-            $client = new GuzzleHttp\Client();
+            $client = new Client();
             $url = "https://graph.facebook.com/v2.6/me/messages";
             $messageText = strtolower($input['message']);
             $senderId = $input['senderid'];
@@ -81,7 +87,7 @@ class FbBot
                 'content-type' => 'application/json'
             );
             if (in_array('hi', $msgarray)) {
-                $answer = "Hello! how may I help you today?";
+                $answer = "Hi Nguyên, welcome to the Burberry Messenger experience. Tap an option from the list below to tell us what you'd like to do";
                 $response = [
                     'recipient' => ['id' => $senderId],
                     'message' => ['text' => $answer],
