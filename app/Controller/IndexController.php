@@ -14,7 +14,6 @@ class IndexController {
     public function exec()
     {
         if (isset($_REQUEST['hub_verify_token']) && isset($_REQUEST['hub_challenge'])) {
-
             $token = $_REQUEST['hub_verify_token'];
             $challenge = $_REQUEST['hub_challenge'];
 
@@ -27,12 +26,10 @@ class IndexController {
             $bot->setHubVerifyToken($hubVerifyToken);
             $bot->setaccessToken($accessToken);
 
-            if ($bot->verifyToken($token, $challenge)) {
-                $input = json_decode(file_get_contents('php://input'), true);
-                $message = $bot->readMessage($input);
-                $bot->sendMessage($message);
-            }
-
+            echo $bot->verifyToken($token, $challenge);
+            $input = json_decode(file_get_contents('php://input'), true);
+            $message = $bot->readMessage($input);
+            $textmessage = $bot->sendMessage($message);
         } else {
             die('Missing authenticate request');
         }
