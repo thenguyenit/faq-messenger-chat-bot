@@ -14,6 +14,8 @@ class IndexController {
     {
         $this->logger = new Logger();
         $this->bot = new FbBot();
+        $this->logger->debug('Request', $_REQUEST);
+        $this->logger->debug('Server', $_SERVER);
     }
 
     public function exec()
@@ -36,7 +38,7 @@ class IndexController {
             $textmessage = $this->bot->sendMessage($message);
 
         } else {
-            $this->logger->warning('Missing authenticate request');
+            $this->logger->debug('Missing authenticate request');
         }
 
     }
