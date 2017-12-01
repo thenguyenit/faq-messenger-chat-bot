@@ -61,7 +61,7 @@ class Tesla implements BotInterface
             $client = new Client();
             $url = getenv('FB_GRAPH_URL');
             $messageText = strtolower($input['message']);
-            $senderId = $input['senderd'];
+            $senderId = $input['senderId'];
             $msgarray = explode(' ', $messageText);
             $answer = null;
             $header = array(
