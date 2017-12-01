@@ -24,33 +24,24 @@ class GoogleBot implements BotInterface
         $this->logger = new Logger();
     }
 
-    public function sendMessage($input)
-    {
-
-    }
-
     public function readMessage($input)
     {
         $query = $this->client->get('query', [
-            'query' => 'Who are you?',
+            'query' => $input['message'],
+            'sessionId' => $input['senderId'],
         ]);
 
         $response = json_decode((string) $query->getBody(), true);
 
         $this->logger->debug('First response', $response);
 
-        $queryApi = new QueryApi($this->client);
+        $response = new Query($response);
 
-        $meaning = $queryApi->extractMeaning('Who are you?', [
-            'sessionId' => '1234567890',
-            'lang' => 'en',
-        ]);
-
-        $this->logger->debug('Second response', $meaning);
-        $response = new Query($meaning);
+        if ($response->getStatus() == 200) {
+            return $response->getResult()->getFulfillment()->getSpeech();
+        }
 
         return false;
-
 
     }
 

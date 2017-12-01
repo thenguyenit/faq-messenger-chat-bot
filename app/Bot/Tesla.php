@@ -61,20 +61,15 @@ class Tesla implements BotInterface
             $client = new Client();
             $url = getenv('FB_GRAPH_URL');
             $messageText = strtolower($input['message']);
-            $senderId = $input['senderid'];
+            $senderId = $input['senderd'];
             $msgarray = explode(' ', $messageText);
-            $response = null;
+            $answer = null;
             $header = array(
                 'content-type' => 'application/json'
             );
 
             if (in_array('hi', $msgarray)) {
-                $answer = "Hi, welcome to the Burberry Messenger experience. Tap an option from the list below to tell us what you'd like to do";
-                $response = [
-                    'recipient' => ['id' => $senderId],
-                    'message' => ['text' => $answer],
-                    'access_token' => $this->accessToken
-                ];
+                $answer = ['text' => "Hi, welcome to the Burberry Messenger experience. Tap an option from the list below to tell us what you'd like to do"];
             } elseif (in_array('blog', $msgarray)) {
                 $answer = [
                     "attachment" => [
@@ -100,11 +95,6 @@ class Tesla implements BotInterface
                                 ]
                             ]]
                         ]]];
-                $response = [
-                    'recipient' => ['id' => $senderId],
-                    'message' => $answer,
-                    'access_token' => $this->accessToken
-                ];
             } elseif (in_array('list', $msgarray)) {
                 $answer = ["attachment" => [
                     "type" => "template",
@@ -152,13 +142,6 @@ class Tesla implements BotInterface
                         ]
                     ]
                 ]];
-
-                $response = [
-                    'recipient' => ['id' => $senderId],
-                    'message' => $answer,
-                    'access_token' => $this->accessToken
-                ];
-
             } elseif ($messageText == 'get started') {
                 $answer = [
                     "text" => "Please share your location:",
@@ -167,31 +150,31 @@ class Tesla implements BotInterface
                             "content_type" => "location",
                         ]
                     ]];
+            } elseif (!empty($input['location'])) {
+                $answer = ["text" => 'great you are at' . $input['location'],];
+            }
+
+            if (!$answer) {
+                //GoogleBot, Can you give me a hand?
+                $understand = $this->googleBot->readMessage($input);
+                if ($understand) {
+                    $answer = [
+                        'text' => $understand
+                    ];
+                }
+
+                //Alexa, Can you give me a favor?
+            }
+
+            if ($answer) {
                 $response = [
                     'recipient' => ['id' => $senderId],
                     'message' => $answer,
                     'access_token' => $this->accessToken
                 ];
-            } elseif (!empty($input['location'])) {
-                $answer = ["text" => 'great you are at' . $input['location'],];
-                $response = ['recipient' => ['id' => $senderId], 'message' => $answer, 'access_token' => $this->accessToken];
-
-            }
-
-            if ($response) {
                 $this->logger->debug('Response', $response);
 
                 $client->post($url, ['query' => $response, 'headers' => $header]);
-
-                return true;
-
-            } else {
-                //GoogleBot, Can you give me a hand?
-                $understand = $this->googleBot->readMessage($input);
-
-                if (!$understand) {
-                    return false;
-                }
 
                 return true;
             }
@@ -225,14 +208,14 @@ class Tesla implements BotInterface
             if (!empty($locTitle)) {
                 $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
                 return [
-                    'senderid' => $senderId,
+                    'senderId' => $senderId,
                     'message' => $messageText,
                     'location' => $locTitle
                 ];
             }
 
             return [
-                'senderid' => $senderId,
+                'senderId' => $senderId,
                 'message' => $messageText
             ];
         } catch (\Exception $ex) {
