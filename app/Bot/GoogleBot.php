@@ -37,7 +37,7 @@ class GoogleBot implements BotInterface
 
         $response = new Query($response);
 
-        if ($response && $response->getStatus() == 200) {
+        if ($response && $response->getStatus()->getCode() == 200) {
             return $response->getResult()->getFulfillment()->getSpeech();
         }
 
