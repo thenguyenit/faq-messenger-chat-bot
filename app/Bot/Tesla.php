@@ -198,9 +198,11 @@ class Tesla implements BotInterface
 
 
         } catch (RequestException $e) {
-            $response = json_decode($e->getResponse()->getBody(true)->getContents());
 
-            $this->logger->debug('Exception', $response);
+            $this->logger->debug($e->getMessage());
+
+            $response = json_decode($e->getResponse()->getBody(true)->getContents());
+            $this->logger->debug('Exception:' . json_encode($response));
 
             return $response;
         }
