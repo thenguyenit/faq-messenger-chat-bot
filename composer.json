@@ -5,7 +5,8 @@
     "require": {
         "guzzlehttp/guzzle": "^6.3",
 		"monolog/monolog": "^1.23",
-		"vlucas/phpdotenv": "^2.4"
+		"vlucas/phpdotenv": "^2.4",
+		"iboldurev/dialogflow": "^0.3.0"
     },
     "autoload": {
 	    "classmap": [

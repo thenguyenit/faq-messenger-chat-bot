@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Helper;
+namespace App\Bot;
 
 use GuzzleHttp\Client as Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
+use App\Helper\Logger;
 
-class FbBot
+class Tesla implements BotInterface
 {
     private $hubVerifyToken = null;
     private $accessToken = null;
-    private $tokken = false;
+    private $token = false;
     protected $client = null;
     protected $logger;
+
+    protected $googleBot;
 
     function __construct()
     {
         $this->logger = new Logger();
+        $this->googleBot = new GoogleBot();
     }
 
     public function setHubVerifyToken($value)
@@ -49,39 +53,10 @@ class FbBot
         }
     }
 
-    public function readMessage($input)
+    public function readMessage($rawMessage)
     {
-        try {
-            $payloads = null;
-            $senderId = $input['entry'][0]['messaging'][0]['sender']['id'];
-            $messageText = $input['entry'][0]['messaging'][0]['message']['text'];
-            $postBack = $input['entry'][0]['messaging'][0]['postback'];
-            $locTitle = $input['entry'][0]['messaging'][0]['message']['attachments'][0]['title'];
-            if (!empty($postBack)) {
-                $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
-                return ['senderid' => $senderId, 'message' => $payloads];
-            }
+        $input = $this->simplyInput($rawMessage);
 
-            if (!empty($locTitle)) {
-                $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
-                return [
-                    'senderid' => $senderId,
-                    'message' => $messageText,
-                    'location' => $locTitle
-                ];
-            }
-
-            return [
-                'senderid' => $senderId,
-                'message' => $messageText
-            ];
-        } catch (\Exception $ex) {
-            return $ex->getMessage();
-        }
-    }
-
-    public function sendMessage($input)
-    {
         try {
             $client = new Client();
             $url = getenv('FB_GRAPH_URL');
@@ -92,8 +67,9 @@ class FbBot
             $header = array(
                 'content-type' => 'application/json'
             );
+
             if (in_array('hi', $msgarray)) {
-                $answer = "Hi Nguyên, welcome to the Burberry Messenger experience. Tap an option from the list below to tell us what you'd like to do";
+                $answer = "Hi, welcome to the Burberry Messenger experience. Tap an option from the list below to tell us what you'd like to do";
                 $response = [
                     'recipient' => ['id' => $senderId],
                     'message' => ['text' => $answer],
@@ -200,16 +176,26 @@ class FbBot
                 $answer = ["text" => 'great you are at' . $input['location'],];
                 $response = ['recipient' => ['id' => $senderId], 'message' => $answer, 'access_token' => $this->accessToken];
 
-            } elseif (!empty($messageText)) {
-                $answer = 'I can not Understand you ask me about blogs';
-                $response = ['recipient' => ['id' => $senderId], 'message' => ['text' => $answer], 'access_token' => $this->accessToken];
             }
 
-            $this->logger->debug('Response', $response);
+            if ($response) {
+                $this->logger->debug('Response', $response);
 
-            $response = $client->post($url, ['query' => $response, 'headers' => $header]);
+                $client->post($url, ['query' => $response, 'headers' => $header]);
 
-            return true;
+                return true;
+
+            } else {
+                //GoogleBot, Can you give me a hand?
+                $understand = $this->googleBot->readMessage($input);
+
+                if (!$understand) {
+                    return false;
+                }
+
+                return true;
+            }
+
 
         } catch (RequestException $e) {
             $response = json_decode($e->getResponse()->getBody(true)->getContents());
@@ -218,6 +204,39 @@ class FbBot
 
             return $response;
         }
+
+    }
+
+    protected function simplyInput($input)
+    {
+        try {
+            $payloads = null;
+            $senderId = $input['entry'][0]['messaging'][0]['sender']['id'];
+            $messageText = $input['entry'][0]['messaging'][0]['message']['text'];
+            $postBack = $input['entry'][0]['messaging'][0]['postback'];
+            $locTitle = $input['entry'][0]['messaging'][0]['message']['attachments'][0]['title'];
+            if (!empty($postBack)) {
+                $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
+                return ['senderid' => $senderId, 'message' => $payloads];
+            }
+
+            if (!empty($locTitle)) {
+                $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
+                return [
+                    'senderid' => $senderId,
+                    'message' => $messageText,
+                    'location' => $locTitle
+                ];
+            }
+
+            return [
+                'senderid' => $senderId,
+                'message' => $messageText
+            ];
+        } catch (\Exception $ex) {
+            return $ex->getMessage();
+        }
+        
     }
 }
 
