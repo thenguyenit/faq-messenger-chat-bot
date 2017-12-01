@@ -53,22 +53,29 @@ class FbBot
             $payloads = null;
             $senderId = $input['entry'][0]['messaging'][0]['sender']['id'];
             $messageText = $input['entry'][0]['messaging'][0]['message']['text'];
-            $postback = $input['entry'][0]['messaging'][0]['postback'];
-            $loctitle = $input['entry'][0]['messaging'][0]['message']['attachments'][0]['title'];
-            if (!empty($postback)) {
+            $postBack = $input['entry'][0]['messaging'][0]['postback'];
+            $locTitle = $input['entry'][0]['messaging'][0]['message']['attachments'][0]['title'];
+            if (!empty($postBack)) {
                 $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
                 return ['senderid' => $senderId, 'message' => $payloads];
             }
 
-            if (!empty($loctitle)) {
-                $payloads = $input['entry'][0]['messaging'][0]['postback']       ['payload'];
-                return ['senderid' => $senderId, 'message' => $messageText, 'location' => $loctitle];
+            if (!empty($locTitle)) {
+                $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
+                return [
+                    'senderid' => $senderId,
+                    'message' => $messageText,
+                    'location' => $locTitle
+                ];
             }
 
             // var_dump($senderId,$messageText,$payload);
             //   $payload_txt = $input['entry'][0]['messaging'][0]['message']['quick_reply']‌​['payload'];
 
-            return ['senderid' => $senderId, 'message' => $messageText];
+            return [
+                'senderid' => $senderId,
+                'message' => $messageText
+            ];
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }

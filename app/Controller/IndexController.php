@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Helper\FbBot;
+use App\Helper\Logger;
 
 class IndexController {
 
+    protected $logger;
+    protected $bot;
+
     public function __construct()
     {
-
+        $this->logger = new Logger();
+        $this->bot = new FbBot();
     }
 
     public function exec()
@@ -21,17 +26,17 @@ class IndexController {
 
             $accessToken = 'EAACSABWtkLwBALiQSRUfg9XwhdJZAcm5sMSv4zWbtGwFJkkEHIMMDIbrjiyFKM8slt6iA3mcasSmHzT6cvP1c6uj64jZBdBRMs8DuQ7sLBXDrixvwciMNjiFGUHqIf6DIyVsDLi5FPNbR6JMeSCxtOMn3ZBXZAhiD9T24RoxugZDZD';
 
-            $bot = new FbBot();
 
-            $bot->setHubVerifyToken($hubVerifyToken);
-            $bot->setaccessToken($accessToken);
+            $this->bot->setHubVerifyToken($hubVerifyToken);
+            $this->bot->setaccessToken($accessToken);
 
-            echo $bot->verifyToken($token, $challenge);
+            echo $this->bot->verifyToken($token, $challenge);
             $input = json_decode(file_get_contents('php://input'), true);
-            $message = $bot->readMessage($input);
-            $textmessage = $bot->sendMessage($message);
+            $message = $this->bot->readMessage($input);
+            $textmessage = $this->bot->sendMessage($message);
+
         } else {
-            die('Missing authenticate request');
+            $this->logger->warning('Missing authenticate request');
         }
 
     }

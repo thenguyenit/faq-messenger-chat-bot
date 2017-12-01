@@ -2,11 +2,9 @@
 	"name": "Misfit messenger chat bot",
 	"license": "MIT",
 	"type": "project",
-	"require": {
-		"php": ">=7.0"
-	},
     "require": {
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+		"monolog/monolog": "^1.23"
     },
     "autoload": {
 	    "classmap": [
