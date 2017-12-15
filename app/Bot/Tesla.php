@@ -154,14 +154,12 @@ class Tesla implements BotInterface
 
             if (!$answer) {
                 //GoogleBot, Can you give me a hand?
-                $understand = $this->googleBot->readMessage($input);
-                if ($understand) {
-                    $answer = [
-                        'text' => $understand
-                    ];
+                $answer = $this->googleBot->readMessage($input);
+
+                if (!$answer) {
+                    //Alexa, Can you give me a favor?
                 }
 
-                //Alexa, Can you give me a favor?
             }
 
             if ($answer) {

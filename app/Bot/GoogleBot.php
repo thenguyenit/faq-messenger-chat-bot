@@ -44,12 +44,17 @@ class GoogleBot implements BotInterface
             $pattern = '/template::(.*)/';
             preg_match($pattern, $response, $output);
             if ($output) {
-                $className = '/App/Model/Message/' . $output[1];
+                $className = '\App\Model\Message\\' . $output[1];
                 if (class_exists($className)) {
                     $messageObj = new $className();
                     return $messageObj->getMessage();
                 }
+            } else {
+                return [
+                    'text' => $response
+                ];
             }
+
         }
 
         return false;
