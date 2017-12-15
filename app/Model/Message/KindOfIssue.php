@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Model\Message;
+
+class KindOfIssue {
+
+    public function getMessage()
+    {
+        return  [
+            "attachment" => [
+                "type" => "template",
+                "payload" => [
+                    "template_type" => "button",
+                    "elements" => [
+                        [
+                            "text" => "I am so sorry for your bad experience with our product. Please let me help you. What kind of issue did you get?",
+                            "buttons" => [
+                                [
+                                    "type" => "web_url",
+                                    "title" => "General",
+                                    "url" => "https://misfit.com/support/"
+                                ],
+                                [
+                                    "type" => "postback",
+                                    "title" => "Technical",
+                                    "payload" => "My issue about technical"
+                                ],
+                                [
+                                    "type" => "web_url",
+                                    "title" => "Shipment",
+                                    "url" => "https://misfit.com/contactform/"
+                                ],
+                                [
+                                    "type" => "web_url",
+                                    "title" => "Others",
+                                    "url" => "https://misfit.com/contactform/"
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+//    public function getGeneralUrl()
+//    {
+//        switch () {
+//            case :
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+}

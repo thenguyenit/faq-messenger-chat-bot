@@ -2,6 +2,7 @@
 
 namespace App\Bot;
 
+use App\Model\Message\KindOfIssue;
 use GuzzleHttp\Client as Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
@@ -38,7 +39,17 @@ class GoogleBot implements BotInterface
         $response = new Query($response);
 
         if ($response && $response->getStatus()->getCode() == 200) {
-            return $response->getResult()->getFulfillment()->getSpeech();
+            $response = $response->getResult()->getFulfillment()->getSpeech();
+
+            $pattern = '/template::(.*)/';
+            preg_match($pattern, $response, $output);
+            if ($output) {
+                $className = '/App/Model/Message/' . $output[1];
+                if (class_exists($className)) {
+                    $messageObj = new $className();
+                    return $messageObj->getMessage();
+                }
+            }
         }
 
         return false;
