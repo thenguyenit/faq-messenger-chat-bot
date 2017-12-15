@@ -68,9 +68,7 @@ class Tesla implements BotInterface
                 'content-type' => 'application/json'
             );
 
-            if (in_array('hi', $msgarray)) {
-                $answer = ['text' => "Hi, welcome to the Burberry Messenger experience. Tap an option from the list below to tell us what you'd like to do"];
-            } elseif (in_array('blog', $msgarray)) {
+            if (in_array('blog', $msgarray)) {
                 $answer = [
                     "attachment" => [
                         "type" => "template",
