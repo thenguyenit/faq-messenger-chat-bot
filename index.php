@@ -4,15 +4,9 @@
  * Register The Auto Loader
  */
 
-
 require __DIR__ . '/app/bootstrap.php';
 require __DIR__ . '/vendor/autoload.php';
 
-//echo \App\Model\Message\KindOfIssue::class;
-//$a = new \App\Model\Message\KindOfIssue();
-var_dump(class_exists($className = '\App\Model\Message\\' . 'KindOfIssue'));
-
-die;
 define('ROOT_PATH', __DIR__);
 
 /**
