@@ -16,12 +16,12 @@ class IsThisAnIssue {
                         [
                             "type" => "postback",
                             "title" => "Yes",
-                            "payload" => "User got a bad experience"
+                            "payload" => "I got a bad experience"
                         ],
                         [
                             "type" => "postback",
                             "title" => "No",
-                            "payload" => "User did not got a bad experience"
+                            "payload" => "I did not get a bad experience"
                         ],
                     ]
                 ]

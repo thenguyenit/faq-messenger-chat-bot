@@ -27,6 +27,8 @@ class GoogleBot implements BotInterface
 
     public function readMessage($input)
     {
+        $this->logger->debug('Message sending', $input);
+
         $query = $this->client->get('query', [
             'query' => $input['message'],
             'sessionId' => $input['senderId'],
