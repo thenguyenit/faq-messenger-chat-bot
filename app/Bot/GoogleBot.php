@@ -3,7 +3,6 @@
 namespace App\Bot;
 
 use App\Model\Message\KindOfIssue;
-use GuzzleHttp\Client as Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use App\Helper\Logger;
@@ -31,7 +30,7 @@ class GoogleBot implements BotInterface
 
         $query = $this->client->get('query', [
             'query' => $input['message'],
-            'sessionId' => $input['senderId'],
+            'sessionId' => $input['senderid'],
         ]);
 
         $response = json_decode((string) $query->getBody(), true);

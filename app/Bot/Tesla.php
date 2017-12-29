@@ -61,7 +61,7 @@ class Tesla implements BotInterface
             $client = new Client();
             $url = getenv('FB_GRAPH_URL');
             $messageText = strtolower($input['message']);
-            $senderId = $input['senderId'];
+            $senderId = $input['senderid'];
             $msgarray = explode(' ', $messageText);
             $answer = null;
             $header = array(
@@ -204,14 +204,14 @@ class Tesla implements BotInterface
             if (!empty($locTitle)) {
                 $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
                 return [
-                    'senderId' => $senderId,
+                    'senderid' => $senderId,
                     'message' => $messageText,
                     'location' => $locTitle
                 ];
             }
 
             return [
-                'senderId' => $senderId,
+                'senderid' => $senderId,
                 'message' => $messageText
             ];
         } catch (\Exception $ex) {

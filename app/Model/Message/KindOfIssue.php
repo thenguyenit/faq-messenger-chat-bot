@@ -16,7 +16,7 @@ class KindOfIssue {
                         [
                             "type" => "postback",
                             "title" => "Technical",
-                            "payload" => "My issue about technical"
+                            "payload" => "I got a technical issue"
                         ],
                         [
                             "type" => "web_url",
