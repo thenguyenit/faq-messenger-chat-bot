@@ -41,8 +41,8 @@ class CreateZendeskTicket {
                                 "buttons" => [
                                     [
                                         "type" => "web_url",
-                                        "url" => $ticketData->ticket->url,
-                                        "title" => "Ticket ID: #" . $ticketData->ticket->id
+                                        "url" => $newTicket->ticket->url,
+                                        "title" => "Ticket ID: #" . $newTicket->ticket->id
                                     ],
                                     [
                                         "type" => "postback",
