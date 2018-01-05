@@ -3,22 +3,27 @@
 namespace App\Model\Message;
 
 use App\Model\Zendesk\Zendesk;
+use App\Helper\Logger;
 
 class CreateZendeskTicket {
 
     protected $zendeskClient;
+    protected $logger;
 
     public function __construct()
     {
         $this->zendeskClient = new Zendesk();
+        $this->logger = new Logger();
     }
 
     public function getMessage()
     {
         $ticketData = [
             'subject' => 'Test create zendesk ticket',
-            'body' => 'Time: ' . new \DateTime('Y-md H:i:s')
+            'body' => 'Time: ' . new \DateTime('Y-m-d H:i:s')
         ];
+
+        $this->logger->debug('Ticket Data', $ticketData);
 
         $newTicket = $this->zendeskClient->create($ticketData);
         if ($newTicket) {
@@ -50,6 +55,8 @@ class CreateZendeskTicket {
                     ]
                 ]
             ];
+        } else {
+            $this->logger->debug('New ticket data is empty');
         }
 
     }
