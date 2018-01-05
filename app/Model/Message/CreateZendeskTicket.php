@@ -20,7 +20,7 @@ class CreateZendeskTicket {
     {
         $ticketData = [
             'subject' => 'Test create zendesk ticket',
-            'body' => 'Time: ' . new \DateTime('Y-m-d H:i:s')
+            'body' => 'Time: ' . date('Y-m-d H:i:s')
         ];
 
         $this->logger->debug('Ticket Data', $ticketData);
