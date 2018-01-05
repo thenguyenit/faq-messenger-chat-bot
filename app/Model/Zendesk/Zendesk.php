@@ -3,6 +3,7 @@
 namespace App\Model\Zendesk;
 
 use Zendesk\API\HttpClient as ZendeskAPI;
+use App\Helper\Logger;
 
 class Zendesk {
 
