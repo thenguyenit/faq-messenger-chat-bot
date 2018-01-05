@@ -6,7 +6,8 @@
         "guzzlehttp/guzzle": "^6.3",
 		"monolog/monolog": "^1.23",
 		"vlucas/phpdotenv": "^2.4",
-		"iboldurev/dialogflow": "^0.3.0"
+		"iboldurev/dialogflow": "^0.3.0",
+		"zendesk/zendesk_api_client_php": "^2.2.3"
     },
     "autoload": {
 	    "classmap": [
