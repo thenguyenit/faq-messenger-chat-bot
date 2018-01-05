@@ -2,7 +2,7 @@
 
 namespace App\Model\Message;
 
-class KindOfTechnicalIssue {
+class KindOfTechnicalIssue implements MessageInterface {
 
     public function getMessage()
     {

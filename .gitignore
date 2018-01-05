@@ -8,5 +8,5 @@
 !/var/log/.gitkeep
 
 
-composer.lock
+/composer.lock
 .env

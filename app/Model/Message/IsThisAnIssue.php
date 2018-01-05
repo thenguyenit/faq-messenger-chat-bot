@@ -2,7 +2,7 @@
 
 namespace App\Model\Message;
 
-class IsThisAnIssue {
+class IsThisAnIssue implements MessageInterface {
 
     public function getMessage()
     {

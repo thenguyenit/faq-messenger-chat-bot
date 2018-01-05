@@ -5,7 +5,7 @@ namespace App\Model\Message;
 use App\Model\Zendesk\Zendesk;
 use App\Helper\Logger;
 
-class CreateZendeskTicket {
+class CreateZendeskTicket implements MessageInterface {
 
     protected $zendeskClient;
     protected $logger;

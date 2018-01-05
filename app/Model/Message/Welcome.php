@@ -2,8 +2,7 @@
 
 namespace App\Model\Message;
 
-class Welcome 
-{
+class Welcome implements MessageInterface {
     public function getMessage()
     {
         return  [

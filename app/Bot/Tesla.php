@@ -191,6 +191,7 @@ class Tesla implements BotInterface
     protected function simplyInput($input)
     {
         try {
+            $this->logger->debug('Raw message:', $input);
             $payloads = null;
             $senderId = $input['entry'][0]['messaging'][0]['sender']['id'];
             $messageText = $input['entry'][0]['messaging'][0]['message']['text'];
