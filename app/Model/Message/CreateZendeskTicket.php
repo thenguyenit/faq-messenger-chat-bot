@@ -20,8 +20,8 @@ class CreateZendeskTicket {
             'body' => 'Time: ' . new \DateTime('Y-md H:i:s')
         ];
 
-        $this->zendeskClient->create($ticketData);
-        if ($ticketData) {
+        $newTicket = $this->zendeskClient->create($ticketData);
+        if ($newTicket) {
             return  [
                 "attachment" => [
                     "type" => "template",
