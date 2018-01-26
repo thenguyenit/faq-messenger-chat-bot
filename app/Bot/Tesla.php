@@ -68,6 +68,12 @@ class Tesla implements BotInterface
                 'content-type' => 'application/json'
             );
 
+
+            if (isset($_SESSION[$senderId]) && $_SESSION[$senderId]  === '0'){
+                return false;
+            }
+
+
             if (in_array('blog', $msgarray)) {
                 $answer = [
                     "attachment" => [
