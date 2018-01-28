@@ -15,13 +15,13 @@ class KindOfIssue implements MessageInterface {
                     "buttons" => [
                         [
                             "type" => "postback",
-                            "title" => "Technical",
-                            "payload" => "I got a technical issue"
+                            "title" => "Pairing/Syncing",
+                            "payload" => "I got a sync issue"
                         ],
                         [
                             "type" => "web_url",
-                            "title" => "Shipment",
-                            "url" => "https://misfit.com/contactform/"
+                            "title" => "Battery",
+                            "url" => "https://misfit.com/catalogsearch/result/support/?faq-search=battery"
                         ],
                         [
                             "type" => "web_url",
