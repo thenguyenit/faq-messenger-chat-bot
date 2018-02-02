@@ -6,6 +6,7 @@ class SuggestionForSyncIssue implements MessageInterface {
 
     public function getMessage()
     {
+
         return  [
             "attachment" => [
                 "type" => "template",
@@ -15,7 +16,7 @@ class SuggestionForSyncIssue implements MessageInterface {
                     "elements" => [
                         [
                             "title" => "Your device battery might be low, Could you try replace your battery, please?",
-                            "image_url" => "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+                            "image_url" => IMG_STATIC_URL . '/battery.png',
                             "default_action" => [
                                 "type" => "web_url",
                                     "url" => "https://misfit.com/catalogsearch/result/support/?faq-search=battery",
@@ -26,7 +27,7 @@ class SuggestionForSyncIssue implements MessageInterface {
                         [
                             "title" => "Your device might be out of Bluetooth range, keep it still within Bluetooth range",
                             "subtitle" => "Bluetooth range is 10 meters (30 feet) if there are no doors",
-                            "image_url" => "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+                            "image_url" => IMG_STATIC_URL . '/bluetooth.png',
                             "default_action" => [
                                 "type" => "web_url",
                                 "url" => "https://misfit.com/catalogsearch/result/support/?faq-search=bluetooth",
@@ -35,9 +36,8 @@ class SuggestionForSyncIssue implements MessageInterface {
                             ]
                         ],
                         [
-                            "title" => "Please make sure you have a good internet connection
-",
-                            "image_url" => "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+                            "title" => "Please make sure you have a good internet connection",
+                            "image_url" => IMG_STATIC_URL . '/wi-fi.png',
                             "default_action" => [
                                 "type" => "web_url",
                                 "url" => "https://misfit.com/catalogsearch/result/support/?faq-search=internet",
