@@ -54,7 +54,7 @@ class GoogleBot implements BotInterface
                 }
             } else {
                 return [
-                    'text' => $response
+                    'text' => $speech
                 ];
             }
 
