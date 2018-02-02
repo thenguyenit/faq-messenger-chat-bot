@@ -40,10 +40,10 @@ class GoogleBot implements BotInterface
         $response = new Query($response);
 
         if ($response && $response->getStatus()->getCode() == 200) {
-            $response = $response->getResult()->getFulfillment()->getSpeech();
+            $speech = $response->getResult()->getFulfillment()->getSpeech();
 
             $pattern = '/template::(.*)/';
-            preg_match($pattern, $response, $output);
+            preg_match($pattern, $speech, $output);
             if ($output) {
                 $className = '\App\Model\Message\\' . $output[1];
                 if (class_exists($className)) {
