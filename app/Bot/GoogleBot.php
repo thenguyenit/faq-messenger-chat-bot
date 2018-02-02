@@ -47,7 +47,7 @@ class GoogleBot implements BotInterface
             if ($output) {
                 $className = '\App\Model\Message\\' . $output[1];
                 if (class_exists($className)) {
-                    $messageObj = new $className($input);
+                    $messageObj = new $className($input, $response);
                     return $messageObj->getMessage();
                 } else {
                     $this->logger->debug('Class ' . $className . ' not found');
