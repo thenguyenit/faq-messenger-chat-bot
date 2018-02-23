@@ -2,9 +2,12 @@
 
 namespace App\Model\Message;
 
+use App\Helper\Logger;
+
 class SuggestionForSyncIssue implements MessageInterface {
 
     protected $input;
+    protected $logger;
 
     /**
      * @var \DialogFlow\Model\Query
@@ -79,10 +82,13 @@ class SuggestionForSyncIssue implements MessageInterface {
     public function getMessage()
     {
         $contexts = $this->getContexts();
+        $this->logger->debug('contexts', $contexts);
+
         $remainSuggestions = array_diff(array_keys($this->suggestions), $contexts);
+        $this->logger->debug('remainSuggestions', $remainSuggestions);
 
         if (is_array($remainSuggestions)) {
-            if (count($remainSuggestions) == 1 && $remainSuggestions[0] == self::MISFIT_SUPPORT) {
+            if (count($remainSuggestions) == 1 && in_array(self::MISFIT_SUPPORT, $remainSuggestions)) {
                 //Create Zendesk ticket
                 return $this->zendesk->getMessage();
 
@@ -92,14 +98,20 @@ class SuggestionForSyncIssue implements MessageInterface {
                     array_push($elements, $this->suggestions[$remainSuggestion]);
                 }
 
-                return  [
-                    "attachment" => [
-                        "type" => "template",
-                        "payload" => [
-                            "template_type" => "list",
-                            "top_element_style" => "compact",
-                            "elements" => $elements
-                        ]
+                return
+                [
+                    [
+                        'text' => 'I am sorry for your bad experience. An issue of syncing could be because of the following reasons:'
+                    ],
+                    [
+                        "attachment" => [
+                            "type" => "template",
+                            "payload" => [
+                                "template_type" => "list",
+                                "top_element_style" => "compact",
+                                "elements" => $elements
+                            ]
+                        ],
                     ],
                 ];
             }
@@ -113,10 +125,14 @@ class SuggestionForSyncIssue implements MessageInterface {
      */
     public function getContexts()
     {
+        $contextsKey = [];
         $contexts = $this->response->getResult()->getContexts();
-        if (is_array($contexts)) {
-            return array_column($contexts, 'name');
+        if (count($contexts) > 1) {
+            foreach ($contexts as $context) {
+                array_push($contextsKey, $context->getName());
+            }
         }
+        return $contextsKey;
     }
 
 }

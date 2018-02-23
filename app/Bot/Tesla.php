@@ -14,6 +14,8 @@ class Tesla implements BotInterface
     private $token = false;
     protected $client = null;
     protected $logger;
+    protected $senderId;
+    protected $facebookGraphUrl;
 
     protected $googleBot;
 
@@ -21,6 +23,9 @@ class Tesla implements BotInterface
     {
         $this->logger = new Logger();
         $this->googleBot = new GoogleBot();
+        $this->client = new Client();
+
+        $this->facebookGraphUrl = getenv('FB_GRAPH_URL');
     }
 
     public function setHubVerifyToken($value)
@@ -58,15 +63,9 @@ class Tesla implements BotInterface
         $input = $this->simplyInput($rawMessage);
 
         try {
-            $client = new Client();
-            $url = getenv('FB_GRAPH_URL');
-            $senderId = $input['senderid'];
             $answer = null;
-            $header = array(
-                'content-type' => 'application/json'
-            );
 
-            if (isset($_SESSION[$senderId]) && $_SESSION[$senderId]  === '0'){
+            if (isset($_SESSION[$this->senderId]) && $_SESSION[$this->senderId]  === '0'){
                 return false;
             }
 
@@ -78,14 +77,16 @@ class Tesla implements BotInterface
             }
 
             if ($answer) {
-                $response = [
-                    'recipient' => ['id' => $senderId],
-                    'message' => $answer,
-                    'access_token' => $this->accessToken
-                ];
-                $this->logger->debug('Response', $response);
-
-                $client->post($url, ['query' => $response, 'headers' => $header]);
+                if (is_array($answer)) {
+                    // If the answer is multiple
+                    if (count($answer) > 1) {
+                        foreach ($answer as $item) {
+                            $this->response($item);
+                        }
+                    } else {
+                        $this->response($answer);
+                    }
+                }
 
                 return true;
             }
@@ -108,32 +109,50 @@ class Tesla implements BotInterface
         try {
             $this->logger->debug('Raw message:', $input);
             $payloads = null;
-            $senderId = $input['entry'][0]['messaging'][0]['sender']['id'];
+            $this->senderId = $input['entry'][0]['messaging'][0]['sender']['id'];
             $messageText = $input['entry'][0]['messaging'][0]['message']['text'];
             $postBack = $input['entry'][0]['messaging'][0]['postback'];
             $locTitle = $input['entry'][0]['messaging'][0]['message']['attachments'][0]['title'];
             if (!empty($postBack)) {
                 $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
-                return ['senderid' => $senderId, 'message' => $payloads];
+                return ['senderid' => $this->senderId, 'message' => $payloads];
             }
 
             if (!empty($locTitle)) {
                 $payloads = $input['entry'][0]['messaging'][0]['postback']['payload'];
                 return [
-                    'senderid' => $senderId,
+                    'senderid' => $this->senderId,
                     'message' => $messageText,
                     'location' => $locTitle
                 ];
             }
 
             return [
-                'senderid' => $senderId,
+                'senderid' => $this->senderId,
                 'message' => $messageText
             ];
+
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
         
+    }
+
+    protected function response($message)
+    {
+        $header = array(
+            'content-type' => 'application/json'
+        );
+
+        $response = [
+            'recipient' => ['id' => $this->senderId],
+            'message' => $message,
+            'access_token' => $this->accessToken
+        ];
+
+        $this->logger->debug('Response', $response);
+
+        $this->client->post($this->facebookGraphUrl, ['query' => $response, 'headers' => $header]);
     }
 }
 

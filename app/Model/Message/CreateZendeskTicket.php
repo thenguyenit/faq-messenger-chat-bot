@@ -45,7 +45,7 @@ class CreateZendeskTicket implements MessageInterface {
                                 "title" => "I am sorry about that.",
                                 "subtitle" => "I created a ticket for our technical team. They will handle it and reply to you in 24 hours.",
                                 "item_url" => "https://misfit.com/contactform/",
-                                "image_url" => "https://c1.sfdcstatic.com/content/dam/blogs/us/Mar2016/20interactive.png",
+                                "image_url" => IMG_STATIC_URL . '/icon/zendesk.png',
                                 "buttons" => [
 //                                    [
 //                                        "type" => "web_url",
