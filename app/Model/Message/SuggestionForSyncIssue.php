@@ -77,6 +77,7 @@ class SuggestionForSyncIssue implements MessageInterface {
         $this->input = $input;
         $this->response = $response;
         $this->zendesk = new CreateZendeskTicket($input, $response);
+        $this->logger = new Logger();
     }
 
     public function getMessage()
